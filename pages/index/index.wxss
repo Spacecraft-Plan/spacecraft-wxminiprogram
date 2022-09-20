@@ -15,5 +15,19 @@
 }
 
 .usermotto {
-  margin-top: 200px;
+  margin-top: 10px;
+}
+
+.flex-wrp{
+  margin-top: 60rpx;
+  display:flex;
+}
+.flex-item{
+  width: 200rpx;
+  height: 300rpx;
+  font-size: 26rpx;
+}
+.agree-p {
+  color: cornflowerblue;
+  text-decoration:underline;
 }
