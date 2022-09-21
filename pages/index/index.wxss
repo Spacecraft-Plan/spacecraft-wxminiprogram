@@ -19,7 +19,7 @@
 }
 
 .flex-wrp{
-  margin-top: 60rpx;
+  margin-top: 0rpx;
   display:flex;
 }
 .flex-item{
