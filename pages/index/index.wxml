@@ -26,7 +26,7 @@
             </view>
             <view class="flex-wrp" style="flex-direction:row;">
                 <input class="weui-input" placeholder="0" type="number" bindinput='onInput' model:value='{{value1}}' />
-                <span>薪</span>
+                <span>RMB</span>
             </view>
             <span>一周工作日加班时间🔽</span>
             <view class="flex-wrp" style="flex-direction:row;">
