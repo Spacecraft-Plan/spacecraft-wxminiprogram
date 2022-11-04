@@ -2,13 +2,40 @@
     "pages": [
         "pages/index/index",
         "pages/logs/logs",
-        "pages/w/w"
+        "pages/overtime/index",
+        "pages/profile/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "乐玩",
         "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#2c2c2c",
+        "selectedColor": "#1296db",
+        "backgroundColor": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "/assets/home_black.png",
+                "selectedIconPath": "/assets/home_blue.png"
+            },
+            {
+                "pagePath": "pages/overtime/index",
+                "text": "社区",
+                "iconPath": "/assets/community_black.png",
+                "selectedIconPath": "/assets/community_blue.png"
+            },
+            {
+                "pagePath": "pages/profile/index",
+                "text": "我的",
+                "iconPath": "/assets/profile_black.png",
+                "selectedIconPath": "/assets/profile_blue.png"
+            }
+        ],
+        "position": "bottom"
     },
     "style": "v2",
     "sitemapLocation": "sitemap.json"

@@ -1,0 +1,41 @@
+/* pages/profile/index.wxss */
+.avatar {
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 80rpx;
+}
+
+.text-icon {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 25px;
+}
+
+.flex-wrp {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.flex-item {
+    display: flex;
+    position: relative;
+    justify-content: start;
+    align-items: center;
+}
+
+page {
+    background-color: lightgray;
+}
+
+.arrow {
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #999;
+    border-right: 2px solid #999;
+    position: absolute;
+    right: 40rpx;
+    transform: rotate(45deg);
+}

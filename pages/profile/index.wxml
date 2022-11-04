@@ -1,0 +1,28 @@
+<!--pages/profile/index.wxml-->
+<view class="container">
+    <view class="page-body">
+        <view class="page-section flex-wrp" style="padding-top: 50rpx;padding-bottom: 50rpx;background-color: lightseagreen;">
+            <image class='avatar' src="/assets/me.jpg" bindtap="onJump"/>
+            <text style="margin-top: 10rpx;">电解质思考</text>
+        </view>
+        <view class="page-section">
+            <button open-type="share" style="margin-top: 40rpx;width: 100%;padding: 20rpx;">
+                <view class="flex-item">
+                    <image class='text-icon' src='/assets/share.png' style="margin-right: 20rpx;" /><text>分享给好友</text>
+                    <view class="arrow" />
+                </view>
+            </button>
+            <button open-type="contact" style="margin-top: 40rpx;width: 100%;padding: 20rpx;">
+                <view class="flex-item">
+                    <image class='text-icon' src='/assets/message.png' style="margin-right: 20rpx;" /> <text>联系开发者</text>
+                    <view class="arrow" />
+                </view>
+            </button>
+        </view>
+        <view class="page-section flex-wrp" style="color:gray;margin-top: 40rpx" bindtap="onClick">
+            <text>👉🏻 关注 <text style="color:black;"> 电解质思考 </text> 微信公众号</text>
+            解锁更多技术技能
+        </view>
+        <official-account></official-account>
+    </view>
+</view>
