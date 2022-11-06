@@ -1,18 +1,20 @@
 <!--index.wxml-->
 <view class="container">
-    <view class="page-body" style="height: 100%; width: 100%;">
-    
-        <view class="page-section">
-
+    <view class="page-body">
+        <view class="page-section page-section-spacing">
+            <swiper indicator-dots="{{banner.indicatorDots}}" autoplay="{{banner.autoplay}}" interval="{{banner.interval}}" duration="{{banner.duration}}">
+                <block wx:for="{{banner.urls}}" wx:for-index="idx" wx:key="*this">
+                    <swiper-item item-id='{{idx}}'>
+                        <image id='{{idx}}' src="{{item}}" mode="center" bindtap="onPreview" style="width:100%" />
+                    </swiper-item>
+                </block>
+            </swiper>
         </view>
-        <view class="page-section-spacing">
-
+        <view class="page-section flex-wrp" style="margin-top: 40rpx;">
+            <view wx:key="*this" wx:for="{{tool.modules}}" wx:for-index='position' class="flex-item" style="margin: 20rpx;padding: 20rpx;background-color: {{tool.backgroundColors[ position % tool.backgroundColors.length]}};" bindtap="onJump" data-path='{{item.path}}'>
+                <image class='text-icon' src="{{item.icon}}"/>
+                <text>{{item.text}}</text>
+            </view>
         </view>
-    </view>
-    <text style="height: 100%; width: 100%;">asfasdf</text>
-    <view class="flex-wrp" style="flex-direction:row;">
-        <view class="flex-item demo-text-1"></view>
-        <view class="flex-item demo-text-2"></view>
-        <view class="flex-item demo-text-3"></view>
     </view>
 </view>

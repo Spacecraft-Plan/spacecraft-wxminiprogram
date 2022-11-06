@@ -1,16 +1,24 @@
 /* pages/profile/index.wxss */
+/* .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #aaa;
+}
+
+.userinfo-avatar {
+    overflow: hidden;
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+} */
+
 .avatar {
     width: 180rpx;
     height: 180rpx;
-    border-radius: 80rpx;
+    border-radius: 50%;
 }
-
-.text-icon {
-    width: 60rpx;
-    height: 60rpx;
-    border-radius: 25px;
-}
-
 .flex-wrp {
     display: flex;
     position: relative;
@@ -18,18 +26,15 @@
     justify-content: start;
     align-items: center;
 }
-
 .flex-item {
     display: flex;
     position: relative;
     justify-content: start;
     align-items: center;
 }
-
 page {
     background-color: lightgray;
 }
-
 .arrow {
     width: 10px;
     height: 10px;

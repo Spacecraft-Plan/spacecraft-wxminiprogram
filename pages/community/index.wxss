@@ -1,0 +1,15 @@
+/* pages/community/index.wxss */
+page{
+    height: 100%;
+    width: 100%;
+}
+.container
+{
+    height: 100%;
+    width: 100%;
+}
+.page-body
+{
+    height: 100%;
+    width: 100%;
+}

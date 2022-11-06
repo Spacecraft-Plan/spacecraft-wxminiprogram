@@ -1,0 +1,19 @@
+<!--components/card/index.wxml-->
+<view class="home-party" style="padding-top:10px;">
+<view>
+    <view class="home-party-title">{{name}}</view>
+    <view class="home-party-subtitle">{{title}}</view> <span class="iconfont icon-jiantouyou-xian" style="top:36px;"></span>
+</view>
+  <view class="home-party-items">
+    <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex">
+      <view wx:for="{{list}}" class="home-party-item" wx:key="index" bindtap="getopendetail" data-id="{{item.id}}">
+        <image src="{{item.img}}" />
+        <view class="home-tb-type">{{item.label}}</view>
+        <view class="home-party-name">{{item.title}}</view>
+        <view class="home-party-info"><span>{{item.spans}} | {{item.num}}</span></view>
+        <view class="home-party-price-m1"><span class="home-party-price-m1-text">{{item.money}}</span></view>
+      </view>
+    </scroll-view>
+    <view style="width:40px;display:inline-block;"></view>
+  </view>
+</view>

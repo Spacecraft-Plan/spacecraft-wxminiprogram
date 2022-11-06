@@ -1,0 +1,17 @@
+<!--pages/community/index.wxml-->
+<view class="container">
+    <view class="page-body" style="display: flex;position: relative;justify-content: center;align-items:stretch;flex-direction: column;">
+        <view class="page-title" style="font-size: 50rpx;font-weight: bold;display: flex;position: relative; justify-content: center; align-items: center;">一句</view>
+        <view class="page-setion">
+            <text style="text-decoration: underline;" bindtap="onCopy">{{vhan}}</text>
+            <view style="display: flex;position: relative;flex-direction: column; justify-content: end; align-items: flex-end;">
+                <text>--《{{source}}》</text>
+            </view>
+            <!-- <img-text list="{{list2}}" name="年会热卖" title="传统主题轰趴旅行各种年会统统都有" bind:getopendetail="getopendetail"></img-text> -->
+
+            <!-- <view wx:for="{{backgroundColors}}" wx:key="*this"> -->
+            <!-- <view style="background-color: {{item}}; height:300rpx;width: 500%;"></view> -->
+            <!-- </view> -->
+        </view>
+    </view>
+</view>

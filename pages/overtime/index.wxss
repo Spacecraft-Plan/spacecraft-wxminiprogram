@@ -1,33 +1,11 @@
 /* pages/overtime/overtime.wxss */
-.userinfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #aaa;
-  }
-  
-  .userinfo-avatar {
-    overflow: hidden;
-    width: 128rpx;
-    height: 128rpx;
-    margin: 20rpx;
-    border-radius: 50%;
-  }
-  
-  .usermotto {
-    margin-top: 10px;
-  }
-  
-  .flex-wrp{
+.flex-wrp {
     margin-top: 0rpx;
-    display:flex;
-  }
-  .flex-item{
+    display: flex;
+}
+
+.flex-item {
     width: 200rpx;
     height: 300rpx;
     font-size: 26rpx;
-  }
-  .agree-p {
-    color: cornflowerblue;
-    text-decoration:underline;
-  }
+}

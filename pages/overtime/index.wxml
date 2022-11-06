@@ -1,64 +1,21 @@
 <!--pages/overtime/overtime.wxml-->
-<view class="container">
-    <!-- <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view> -->
-    <view class="usermotto">
-    <text>你的加班费:</text><span>{{total}}</span>
-        <form class="f" catchsubmit="formSubmit" catchreset="formReset">
-            <view class="flex-wrp" style="flex-direction:row;">
-                <span style="margin-top: 10rpx;">年薪🔽</span>
-            </view>
-            <view class="flex-wrp" style="flex-direction:row;">
-                <input class="weui-input" placeholder="0" type="number" bindinput='onInput' model:value='{{value1}}' />
-                <span>RMB</span>
-            </view>
-            <span>一周工作日加班时间🔽</span>
-            <view class="flex-wrp" style="flex-direction:row;">
-                <input class="weui-input" placeholder="0" type="number" bindinput='onInput' model:value='{{value2}}' />
-                <span>小时</span>
-            </view>
-            <span>一周休息日加班时间🔽</span>
-            <view class="flex-wrp" style="flex-direction:row;">
-                <input class="weui-input" placeholder="0" type="number" bindinput='onInput' model:value='{{value3}}' />
-                <span>天</span>
-            </view>
-            <span>一年节假日加班时间🔽</span>
-            <view class="flex-wrp" style="flex-direction:row;">
-                <input class="weui-input" type="number" bindinput='onInput' model:value='{{value4}}' />
-                <span>天</span>
-            </view>
-        </form>
+<view class="container" style="padding: 40rpx;">
+    <text>你的加班费:{{total}}</text>
+    <view wx:for="{{a}}" wx:for-index="idx" wx:key="*this">
+        {{item}}
+        <input id="{{idx}}" class="weui-input" placeholder="0" type="number" bindinput='onInput'/>
     </view>
-    <view>
-        <text>
-            使用例:
-            以996为例，首先每周工作日为5天。每日工作时间8小时。
-            996从早到晚12个小时，加班4小时，一周工作日加班4*5=20小时；
-            周六加班一天，所以每周休息日加班1天；
-            暂定节假日不加班，底薪设100k；
-            所以依次输入100000，20，1，0。得加班费115,000.
-            算法按照 base * (1.5 * monday / 40 + 2 * sunday / 5 + 3 * newYear / 261)\n
-            base：年薪
-            monday：每周工作日加班时间，单位小时
-            sunday：每周休息日加班时间，单位 天
-            newYear：每年节假日加班时间，单位 天
-        </text>
-        <p>参考资料：</p>
-        <p class='agree-p' bind:tap="jump2href">https://baike.baidu.com/item/加班费/3852932?fr=aladdin#4</p>
-    </view>
+    <text>
+        使用例:
+        以996为例，首先每周工作日为5天。每日工作时间8小时。
+        996从早到晚12个小时，加班4小时，一周工作日加班4*5=20小时；
+        周六加班一天，所以每周休息日加班1天；
+        暂定节假日不加班，底薪设100k；
+        所以依次输入100000，20，1，0。得加班费115,000.
+        算法按照 base * (1.5 * monday / 40 + 2 * sunday / 5 + 3 * newYear / 261)\n
+        base：年薪
+        monday：每周工作日加班时间，单位小时
+        sunday：每周休息日加班时间，单位 天
+        newYear：每年节假日加班时间，单位 天
+    </text>
 </view>

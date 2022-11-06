@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "img-text": "/components/imgtext/index"
+    }
+}

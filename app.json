@@ -1,9 +1,11 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/logs/logs",
+        "pages/logs/index",
         "pages/overtime/index",
-        "pages/profile/index"
+        "pages/profile/index",
+        "pages/community/index",
+        "pages/webview/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -23,8 +25,8 @@
                 "selectedIconPath": "/assets/home_blue.png"
             },
             {
-                "pagePath": "pages/overtime/index",
-                "text": "社区",
+                "pagePath": "pages/community/index",
+                "text": "一句",
                 "iconPath": "/assets/community_black.png",
                 "selectedIconPath": "/assets/community_blue.png"
             },
