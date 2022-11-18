@@ -94,10 +94,10 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage() {
+    onShareAppMessage(o) {
             return {
                 from: "button",
-                title: '转发标题',
+                title: '未知思考',
                 // imageUrl: '' // 图片 URL
                 path: '/pages/index/index?userId='+Constant.userId+'&share=true',
             }
@@ -110,10 +110,10 @@ Page({
     },
     onClick(e) {
         wx.setClipboardData({
-            data: '电解质思考',
+            data: '未知思考',
             success (res) {
                 wx.showModal({
-                    content: '“电解质思考”公众号名称已复制到剪切板，去微信搜索关注吧',   //这个地方会提示报错改成string格式就行
+                    content: '“未知思考”公众号名称已复制到剪切板，去微信搜索关注吧',   //这个地方会提示报错改成string格式就行
                     showCancel:false,
                     cancelColor: '#8799a3', //取消文字的颜色
                     confirmText: "知道了", //默认是“确定”
@@ -124,8 +124,8 @@ Page({
     },
     onJump(e){
         wx.showModal({
-            title:'"电解质思考"公众号',
-            content: 'Android老司机聚焦大前端，关注性能优化，分享大前端技术、摄影、股票、人生感悟，理性地尝试与这个世界建立感性的连接。',   //这个地方会提示报错改成string格式就行
+            title:'"未知思考"公众号',
+            content: '大前端老司机聚焦大前端，关注性能优化，分享大前端技术、摄影、股票、人生感悟，理性地尝试与这个世界建立感性的连接。',   //这个地方会提示报错改成string格式就行
             showCancel:false,
             confirmText: "认识了", //默认是“确定”
             confirmColor: '#3385FF', //确定文字的颜色

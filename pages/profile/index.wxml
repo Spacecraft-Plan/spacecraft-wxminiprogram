@@ -20,7 +20,7 @@
     </view> -->
         <view class="page-section flex-wrp" style="padding-top: 50rpx;padding-bottom: 50rpx;background-color: lightseagreen;">
             <image class='avatar' src="/assets/me.jpg" bindtap="onJump"/>
-            <text style="margin-top: 10rpx;">电解质思考</text>
+            <text style="margin-top: 10rpx;">未知思考</text>
         </view>
         <view class="page-section">
             <button open-type="share" style="margin-top: 40rpx;width: 100%;padding: 20rpx;">
@@ -37,7 +37,7 @@
             </button>
         </view>
         <view class="page-section flex-wrp" style="color:gray;margin-top: 40rpx" bindtap="onClick">
-            <text>👉🏻 关注 <text style="color:black;"> 电解质思考 </text> 微信公众号</text>
+            <text>👉🏻 关注 <text style="color:black;"> 未知思考 </text> 微信公众号</text>
             解锁更多技术技能
         </view>
         <official-account></official-account>

@@ -1,7 +1,7 @@
 // pages/community/index.js
 import {
     getOne
-} from '../../utils/api'
+} from '../../services/api'
 Page({
 
     /**
@@ -91,18 +91,64 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const pos = Math.round(Math.random() * this.data.one.length)
-        this.setData(this.data.one[pos])
-        // getOne({
-        // success: (res) => {
-        // console.log(res.data.data.vhan,res.data.data.creator,res.data.data.source)
-        // this.setData({
-        //     vhan: res.data.data.vhan,
-        //     creator: res.data.data.creator,
-        //     source: res.data.data.source,
-        // })
-        // }
-        // })
+
+        const oneText = wx.getStorageSync('oneText');
+        const oneShowTime = wx.getStorageSync('oneShowTime');
+        const delta = Date.now() - oneShowTime;
+        // 计算出相差天数
+        let days = Math.floor(delta / (24 * 3600 * 1000));
+        const residue1 = delta % (24 * 3600 * 1000); // 计算天数后剩余的毫秒数
+        const hours = Math.floor(residue1 / (3600 * 1000));
+        const residue2 = residue1 % (3600 * 1000); // 计算小时数后剩余的毫秒数
+        const minutes = Math.floor(residue2 / (60 * 1000));
+        // 计算相差秒数
+        const residue3 = residue2 % (60 * 1000); // 计算分钟数后剩余的毫秒数
+        const seconds = Math.round(residue3 / 1000);
+        let returnVal =
+            ((days == 0) ? "" : days + "天") +
+            ((hours == 0) ? "" : days + "时") +
+            ((minutes == 0) ? "" : minutes + "分") +
+            ((seconds == 0) ? "" : seconds + "秒");
+        console.log(oneText, hours, minutes, seconds, returnVal);
+        if (!oneText || hours >= 24) {
+            getOne({
+                success: (res) => {
+                    console.log('invokeService success', res)
+                    const {
+                        err_code,
+                        err_msg,
+                        data_list
+                    } = res.data
+                    if (data_list.length > 0) {
+                        this.setData({
+                            vhan: data_list[0].result,
+                            creator: '',
+                            source: ''
+                        })
+                        wx.setStorageSync('oneShowTime', Date.now())
+                        wx.setStorageSync('oneText', data_list[0].result)
+                    }
+                    // console.log(res.data.data.vhan,res.data.data.creator,res.data.data.source)
+                    // this.setData({
+                    //     vhan: res.data.data.vhan,
+                    //     creator: res.data.data.creator,
+                    //     source: res.data.data.source,
+                    // })
+                },
+                fail: (err) => {
+                    console.error('invokeService fail', err)
+                }
+            })
+        } else {
+            // const pos = Math.round(Math.random() * this.data.one.length)
+            // this.setData(this.data.one[pos])
+            this.setData({
+                vhan: oneText,
+                creator: '',
+                source: ''
+            })
+        }
+
     },
 
     /**
@@ -150,21 +196,31 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage() {
-
-    },
-    onCopy(e){
-        wx.setClipboardData({
-            data: '电解质思考',
-            success (res) {
-                wx.showModal({
-                    content: '“电解质思考”公众号名称已复制到剪切板，去微信搜索关注吧',   //这个地方会提示报错改成string格式就行
-                    showCancel:false,
-                    cancelColor: '#8799a3', //取消文字的颜色
-                    confirmText: "知道了", //默认是“确定”
-                    confirmColor: '#3385FF', //确定文字的颜色
-                  })
+    onShareAppMessage(o) {
+        console.log(o)
+            return {
+                from: o.from,
+                title: o.title,
+                // imageUrl: '' // 图片 URL
+                path: '/pages/index/index?userId='+Constant.userId+'&share=true',
             }
+    },
+    onCopy(e) {
+        wx.showShareMenu({
+            withShareTicket: true,
+            menus: ['shareAppMessage', 'shareTimeline']
           })
+        // wx.setClipboardData({
+        //     data: '未知思考',
+        //     success(res) {
+        //         wx.showModal({
+        //             content: '“未知思考”公众号名称已复制到剪切板，去微信搜索关注吧', //这个地方会提示报错改成string格式就行
+        //             showCancel: false,
+        //             cancelColor: '#8799a3', //取消文字的颜色
+        //             confirmText: "知道了", //默认是“确定”
+        //             confirmColor: '#3385FF', //确定文字的颜色
+        //         })
+        //     }
+        // })
     }
 })
