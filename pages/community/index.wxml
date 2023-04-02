@@ -2,16 +2,17 @@
 <view class="container">
     <view class="page-body" style="display: flex;position: relative;justify-content: center;align-items:stretch;flex-direction: column;">
         <view class="page-title" style="font-size: 50rpx;font-weight: bold;display: flex;position: relative; justify-content: center; align-items: center;">一句</view>
-        <button open-type="share"  style="padding: 20rpx;width: 100%;" data-vhan="{{vhan}}">
-            <text style="text-decoration: underline;" >{{vhan}}</text>
+        <view  class="page-setion" style="padding: 20rpx;">
+            <text style="text-decoration: underline;"bindtap="onCopy" data-vhan="{{vhan}}">{{vhan}}</text>
             <view wx:if="{{source}}"  style="display: flex;position: relative;flex-direction: column; justify-content: end; align-items: flex-end;">
                 <text>--《{{source}}》</text>
             </view>
+            <button open-type="share" style="margin-top: 140rpx;">传递快乐</button>
             <!-- <img-text list="{{list2}}" name="年会热卖" title="传统主题轰趴旅行各种年会统统都有" bind:getopendetail="getopendetail"></img-text> -->
 
             <!-- <view wx:for="{{backgroundColors}}" wx:key="*this"> -->
             <!-- <view style="background-color: {{item}}; height:300rpx;width: 500%;"></view> -->
             <!-- </view> -->
-        </button>
+        </view>
     </view>
 </view>

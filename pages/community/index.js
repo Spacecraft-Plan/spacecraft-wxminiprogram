@@ -197,30 +197,15 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage(o) {
-        console.log(o)
             return {
                 from: o.from,
                 title: o.title,
                 // imageUrl: '' // 图片 URL
-                path: '/pages/index/index?userId='+Constant.userId+'&share=true',
+                // path: '/pages/index/index?userId='+Constant.userId+'&share=true',
             }
     },
     onCopy(e) {
-        wx.showShareMenu({
-            withShareTicket: true,
-            menus: ['shareAppMessage', 'shareTimeline']
-          })
-        // wx.setClipboardData({
-        //     data: '未知思考',
-        //     success(res) {
-        //         wx.showModal({
-        //             content: '“未知思考”公众号名称已复制到剪切板，去微信搜索关注吧', //这个地方会提示报错改成string格式就行
-        //             showCancel: false,
-        //             cancelColor: '#8799a3', //取消文字的颜色
-        //             confirmText: "知道了", //默认是“确定”
-        //             confirmColor: '#3385FF', //确定文字的颜色
-        //         })
-        //     }
-        // })
+        const {vhan} = e.currentTarget.dataset
+        wx.setClipboardData({data: vhan,})
     }
-})
+}) 

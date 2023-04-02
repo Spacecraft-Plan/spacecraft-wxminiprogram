@@ -96,15 +96,15 @@ Page({
      */
     onShareAppMessage(o) {
             return {
-                from: "button",
+                from: o.from,
                 title: '未知思考',
                 // imageUrl: '' // 图片 URL
-                path: '/pages/index/index?userId='+Constant.userId+'&share=true',
+                // path: '/pages/index/index?userId='+Constant.userId+'&share=true',
             }
     },
     onShareTimeline(){
         return {
-            title:"乐玩",
+            title:"ChatAi",
             imageUrl:''
         }
     },
