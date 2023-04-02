@@ -1,0 +1,76 @@
+<!--components/chatinput/index.wxml-->
+<!-- https://juejin.cn/post/7106284415424135199 -->
+<!-- 顶部title及返回键 -->
+<view class="index" style="height:{{globalData.CustomBar}}px;padding-top: {{globalData.StatusBar}}px;">
+  <!-- 如果正在输入title变正在输入中 -->
+  <image catchtap="fanhui" mode="widthFix" class="index-img" src="/images/leftrow.png"></image><text>{{news?'正在输入中...':openid}}</text>
+</view>
+<view class="chat-index" style="margin-top:{{globalData.CustomBar}}px;height:calc(100vh - {{globalData.CustomBar}}px);">
+  <view wx:if="{{playing}}" style="position: fixed;top: 75px;" class="chat-cbins">正在播放语音</view>
+  <!-- 聊天列表 -->
+  <scroll-view bindtouchstart="scrollstart" style="height: calc(100% - {{chatheight?chatheight:'50'}}px);{{emojis || camera?'transition:all 0.5s;':'transition:all 0.1s;'}}" scroll-with-animation="{{animation}}" class="scroll-view" scroll-y="{{true}}" scroll-into-view="{{curr}}">
+    <!-- 循环消息列表 -->
+    <view wx:for="{{newsList}}" wx:key="index" class="news {{item.openid == openid?'contrary':''}}" id="jump{{index}}">
+      <!-- 用户头像 -->
+      <view class="mews-image">
+        <image src="{{item.logo}}" mode='aspectFill'></image>
+      </view>
+      <!-- 用户消息，消息分四种类型，语音，表情，图片，文字 -->
+      <!-- 当用户标识等于系统默认用户标识的时候 -->
+      <view class="news-centent {{item.openid == openid?'centent-right':'centent-left'}}" >
+        <view class="{{item.openid == openid?'trianright':'trianleft'}}"></view>
+        <text selectable="{{true}}" wx:if="{{item.news_type == 'text'}}" class="{{item.openid == openid?'background_right':'background_left'}}" >{{item.news_centent}}</text>
+        <image class="news-images" catchtap="picture" data-src="{{item.news_centent.src}}" style="{{item.news_centent.width <= 100?'width:'+item.news_centent.width*2+'px;height:'+item.news_centent.height*2+'px':''}}{{item.news_centent.width > 100 && item.news_centent.width < 400?'width:130px;height:'+item.news_centent.height/(item.news_centent.width / 130)+'px':''}}{{item.news_centent.width > 400 && item.news_centent.width <= 600?'width:'+item.news_centent.width/2.5+'px;height:'+item.news_centent.height/2.5+'px':''}}{{item.news_centent.width > 600 && item.news_centent.width <= 800?'width:'+item.news_centent.width/4+'px;height:'+item.news_centent.height/4+'px':''}}{{item.news_centent.width > 800?'width:150px;height:'+item.news_centent.height/(item.news_centent.width / 150)+'px':''}};" wx:if="{{item.news_type == 'image'}}" src="{{item.news_centent.src}}"></image>
+        <view class="news-voice" wx:if="{{item.news_type == 'voice'}}" bindtap="{{cuindex == index?'suspend':'play'}}" data-voice="{{item.news_centent.voice}}" data-index="{{index}}" > 
+          <text wx:if="{{item.openid == openid}}">{{item.news_centent.dimen < '1'?'1':item.news_centent.dimen}}"</text>
+          <image src="/images/{{item.openid == openid?'voice-right':'voice-left'}}.png"></image>
+          <text wx:if="{{item.openid != openid}}">{{item.news_centent.dimen < '1'?item.news_centent.dimen:'1'}}"</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 底部功能栏 -->
+  <view class="chat-bottom" id="chat-height">
+    <!-- 点击语音功能 -->
+    <view class="chat-centent">
+      <view class="chat-pression">
+        <image wx:if="{{!voice}}" catchtap="speak" src="/images/voice.png"></image>
+        <image wx:if="{{voice}}" catchtap="speak" src="/images/keyboard.png"></image>
+      </view>
+      <view class="chat-tencvi" style="{{sendout?'width:67%;':''}}">
+        <textarea adjust-position="{{false}}" bindfocus="getkey" bindblur="getblur" wx:if="{{!voice}}" bindinput="moninput" value="{{news}}" maxlength="-1" auto-height />
+        <view  bindtouchstart="touchdown" bindtouchend="touchup" wx:if="{{voice}}">按住 说话</view>
+      </view>
+      <view class="chat-pression">
+        <image wx:if="{{!emojis}}" catchtap="emoji" src="/images/emotion.png"></image>
+        <image wx:if="{{emojis}}" catchtap="emoji" src="/images/keyboard.png"></image>
+      </view>
+      <view class="chat-pression" wx:if="{{!sendout}}">
+        <image catchtap="camerax" src="/images/plus.png"></image>
+      </view>
+      <view class="chat-news" catchtap="message" style="{{sendout?'transition:all 0.5s;width:15%;':'width:0;position: absolute;right: 0;visibility: hidden;'}}">
+        <view>发送</view>
+      </view>
+    </view>
+    <!-- 点击表情图标 -->
+    <view class="chat-cube" wx:if="{{emojis}}">
+      <view class="cube-title">所有表情</view>
+      <view class="cube-centent">
+        <view catchtap="expression" data-item="{{item}}" wx:for="{{pression}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+    <!-- 点击加号图标 -->
+    <view class="chat-camera" wx:if="{{camera}}">
+      <view wx:for="{{feature}}" wx:key="index" class="camera-feature" catchtap="featch" data-index="{{index}}">
+        <view class="feature-src">
+          <image src="{{item.src}}"></image>
+        </view>
+        <view class="feature-text">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 加载图标 -->
+<view class="animation" wx:if="{{alcur}}">
+  <image src="/images/recording.gif"></image>
+</view>

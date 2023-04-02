@@ -1,11 +1,13 @@
 {
     "pages": [
         "pages/home/index",
+        "pages/chatroom/index",
         "pages/logs/index",
         "pages/overtime/index",
         "pages/profile/index",
         "pages/community/index",
         "pages/webview/index"
+
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -17,8 +19,7 @@
         "color": "#2c2c2c",
         "selectedColor": "#1296db",
         "backgroundColor": "white",
-        "list": [
-            {
+        "list": [{
                 "pagePath": "pages/home/index",
                 "text": "首页",
                 "iconPath": "/assets/home_black.png",
@@ -40,5 +41,16 @@
         "position": "bottom"
     },
     "style": "v2",
-    "sitemapLocation": "sitemap.json"
+    "sitemapLocation": "sitemap.json",
+    "useExtendedLib": {
+        "weui": true
+    },
+    "usingComponents": {
+        "chat-box": "components/chatbox/index",
+        "chat-input": "components/chatinput/index",
+        "mp-actionSheet": "weui-miniprogram/actionsheet/actionsheet"
+    },
+    "requiredBackgroundModes": [
+        "audio"
+    ]
 }

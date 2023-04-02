@@ -62,5 +62,10 @@ Page({
      */
     onShareAppMessage() {
 
+    },
+    onJump(e){
+        wx.navigateTo({
+            url: '/pages/chatroom/index'
+        })
     }
 })

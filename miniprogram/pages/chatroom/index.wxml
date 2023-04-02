@@ -1,0 +1,22 @@
+<mp-toptips msg="{{errMsg}}" type="error" show="{{errMsg}}"></mp-toptips>
+<music-player songInfo="{{songInfo}}" style="position:fixed;width:100%;z-index:999" />
+<!--聊天内容-->
+<chat-box roomId="{{roomId}}"></chat-box>
+<!-- <chat-input /> -->
+<view class="cu-bar foot input {{InputBottom!=0?'cur':''}}" style="bottom:{{InputBottom}}px">
+    <view class="action">
+        <text class="cuIcon-keyboard text-grey" bindtap="selectKeyboard" wx:if="{{showKeyboard}}"/>
+        <text class="cuIcon-voice text-grey" bindtap="selectVoice" wx:if="{{!showKeyboard}}"/>
+    </view>
+    <textarea class="solid-bottom"  bindfocus="InputFocus" bindblur="InputBlur" model:value="{{content}}" adjust-position="{{false}}" focus="{{false}}" maxlength="300" cursor-spacing="10" auto-height/>
+    <!-- <view class="action">
+        <text class="cuIcon-keyboard text-grey" bindtap="selectKeyboard" wx:if="{{!showEmoji}}"/>
+        <text class="cuIcon-emoji text-grey" bindtap="selectEmoji" wx:if="{{showEmoji}}"/>
+    </view> -->
+        <!-- <text class="cuIcon-discover text-grey" bindtap="selectImg"/> -->
+    <!-- <text class="cuIcon-add text-grey" bindtap="selectAction"/> -->
+    <button class="cu-btn bg-green shadow" style="width:auto;white-space:nowrap" bindtap="submit" >发送</button>
+</view>
+
+<mp-actionSheet bindactiontap="btnClick" show="{{showActionsheet}}" actions="{{groups}}" title="">
+</mp-actionSheet>

@@ -1,2 +1,4 @@
 <!--pages/home/index.wxml-->
-<text>pages/home/index.wxml</text>
+<view class="container" style="display: flex;position: relative;justify-content: center;align-items: center;">
+    <button style="margin-top: 140rpx;" bindtap="onJump">进入聊天室</button>
+</view>
