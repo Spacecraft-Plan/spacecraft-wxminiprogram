@@ -1,3 +1,11 @@
+import {
+    userRegister,
+    checkLoginState
+} from '../../services/passport'
+import {
+    sendTxt,
+    sendImg
+} from '../../services/message'
 // 获取全局APP
 const app = getApp();
 // 转发
@@ -19,55 +27,42 @@ Page({
         groups: [{
             text: '点歌',
             value: 1
-        }]
-
+        }],
+        voice: false,
+        showKeyboard: false,
     },
-    selectImg() {
+    async selectImg() {
         var that = this;
-        wx.chooseImage({
+        let res = await wx.chooseImage({
             count: 1,
             sizeType: ['compressed'],
-            sourceType: ['album', 'camera'],
-            success: res => {
-                console.log(res)
-                wx.getFileSystemManager().readFile({
-                    filePath: res.tempFilePaths[0], //选择图片返回的相对路径
-                    encoding: 'base64', //编码格式
-                    success: res => { //成功的回调
-                        var bufferData = res.data;
-                        wx.showLoading({
-                            title: '信息发送',
-                            mask: true
-                        })
-                        wx.cloud.callFunction({
-                            name: 'cloud-msg-push',
-                            data: {
-                                roomId: that.data.roomId,
-                                msgType: 'image',
-                                content: bufferData
-                            },
-                            success: res => {
-                                console.log(res)
-                                if (res.result.code == 300) {
-                                    that.setData({
-                                        errMsg: res.result.msg
-                                    })
-                                }
-                            },
-                            fail: res => {
-                                console.log(res)
-                            },
-                            complete: res => {
-                                this.setData({
-                                    content: ''
-                                })
-                                wx.hideLoading();
-                            }
-                        })
-                    }
-                })
-            }
+            sourceType: ['album', 'camera']
         })
+        console.log(res)
+        res = await wx.getFileSystemManager().readFile({
+            filePath: res.tempFilePaths[0], //选择图片返回的相对路径
+            encoding: 'base64', //编码格式
+        })
+        var bufferData = res.data;
+        res = sendImg({
+            roomId: that.data.roomId,
+            content: bufferData
+        });
+        wx.showLoading({
+            title: '信息发送',
+            mask: true
+        })
+        console.log(res)
+        if (res.result.code == 300) {
+            that.setData({
+                errMsg: res.result.msg
+            })
+        }
+        console.log(res)
+        this.setData({
+            content: ''
+        })
+        wx.hideLoading();
     },
     InputFocus(e) {
         this.setData({
@@ -97,54 +92,35 @@ Page({
             wx.showLoading({
                 title: '信息发送',
             })
-            wx.cloud.callFunction({
-                name: 'cloud-msg-push',
-                data: {
-                    roomId: that.data.roomId,
-                    msgType: 'text',
-                    content: that.data.content
-                },
-                success: res => {
-                    console.log(res)
-                    if (res.result.code == 300) {
-                        that.setData({
-                            errMsg: res.result.msg
-                        })
-                    }
-
-                    console.log(res)
-                },
-                fail: res => {
-                    console.log(res)
-                },
-                complete: res => {
-                    this.setData({
-                        content: ''
-                    })
-                    wx.hideLoading();
-                }
+            const res = await sendTxt({
+                roomId: that.data.roomId,
+                content: that.data.content
             })
+            console.log(res)
+            if (res?.result?.code ?? -1 == 300) {
+                that.setData({
+                    errMsg: res.result.msg
+                })
+            }
+            this.setData({
+                content: ''
+            })
+            wx.hideLoading();
         } else {
-            // 
-            wx.getUserProfile({
+            const res = await wx.getUserProfile({
                 desc: '获取用户聊天头像',
-                success: res => {
-                    // console.log(res)
-                    let userInfo = res.userInfo
-                    //
-                    wx.showLoading({
-                        title: '获取用户信息',
-                    })
-                    this.userRegister(userInfo).then(r => {
-                        console.log(r)
-                        wx.hideLoading();
-                        that.setData({
-                            login: true
-                        }, () => {
-                            that.submit();
-                        })
-                    })
-                }
+            })
+            // console.log(res)
+            wx.showLoading({
+                title: '获取用户信息',
+            })
+            const r = await userRegister(res.userInfo);
+            console.log(r)
+            wx.hideLoading();
+            that.setData({
+                login: true
+            }, () => {
+                that.submit();
             })
         }
     },
@@ -152,59 +128,19 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.userAuth();
-    },
-    userRegister(userInfo) {
-        return new Promise(function (resolve, reject) {
-            wx.cloud.callFunction({
-                name: 'cloud-user',
-                data: {
-                    userInfo: userInfo
-                },
-                success: res => {
-                    resolve(res)
-
-                },
-                fail: res => {
-                    reject(res)
-                }
+        checkLoginState().then(res => {
+            const l = res?.result?.errCode ?? -1 != -1
+            console.log(res, l ? '--已登录--' : '--未登录--');
+            this.setData({
+                login: l
             })
-        })
-
-    },
-    userAuth() {
-        //身份校验
-        wx.cloud.callFunction({
-            name: 'auth',
-            success: res => {
-                console.log(res)
-
-                if (res.result.errCode == -1) {
-                    //
-                    console.log('--未登录--')
-                    this.setData({
-                        login: false
-                    })
-                } else {
-                    console.log('--已登录--')
-                    this.setData({
-                        login: true
-                    })
-                }
-            },
-            fail: res => {
-                console.log(res)
-            }
-        })
+        });
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        this.setData({
-            voice: false,
-            showKeyboard: false,
-        })
+ 
     },
 
     /**

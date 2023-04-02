@@ -1,7 +1,7 @@
 {
     "pages": [
-        "pages/home/index",
         "pages/chatroom/index",
+        "pages/home/index",
         "pages/logs/index",
         "pages/overtime/index",
         "pages/profile/index",
