@@ -1,6 +1,6 @@
 {
     "pages": [
-        "pages/index/index",
+        "pages/home/index",
         "pages/logs/index",
         "pages/overtime/index",
         "pages/profile/index",
@@ -19,7 +19,7 @@
         "backgroundColor": "white",
         "list": [
             {
-                "pagePath": "pages/index/index",
+                "pagePath": "pages/home/index",
                 "text": "首页",
                 "iconPath": "/assets/home_black.png",
                 "selectedIconPath": "/assets/home_blue.png"

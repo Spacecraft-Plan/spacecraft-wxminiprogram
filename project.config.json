@@ -1,4 +1,6 @@
 {
+    "miniprogramRoot": "miniprogram/",
+    "cloudfunctionRoot": "cloudfunctions/",
     "description": "项目配置文件",
     "packOptions": {
         "ignore": [
@@ -56,5 +58,6 @@
         "tabIndent": "insertSpaces",
         "tabSize": 4
     },
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+    "srcMiniprogramRoot": "miniprogram/"
 }
