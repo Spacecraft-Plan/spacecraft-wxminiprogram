@@ -9,13 +9,11 @@ import {
 import {
     showMessage
 } from '../../utils/toastUtil'
+import {
+    TimeCode
+} from '../../utils/timeUtil'
 // 获取全局APP
 const app = getApp();
-// 转发
-const db = wx.cloud.database();
-// 聊天侦听器
-var chatWatcher = null
-// 获取计时器函数
 Page({
     /**
      * 页面的初始数据
@@ -25,6 +23,7 @@ Page({
         //输入框距离
         InputBottom: 0,
         roomId: 1,
+        chatMsg: {},
         userInfo: {},
         content: '',
         groups: [{
@@ -95,29 +94,55 @@ Page({
         })
     },
     async submit() {
+        if(!this.data.content){
+            showMessage('请输入问题')
+            return
+        }
         var that = this;
         if (this.data.login) {
             //已登录用户
             try {
+                that.setData({
+                    chatMsg: {
+                        openid: app.globalData.openid || wx.getStorageSync('openid'),
+                        msgType: 'text',
+                        userInfo: {
+                            avatarUrl: wx.getStorageSync('avatarUrl'),
+                            nickName: wx.getStorageSync('nickName')
+                        },
+                        content: that.data.content,
+                        _createTime: TimeCode(),
+                    }
+                })
                 wx.showLoading({
-                    title: '信息发送',
+                    title: '接受信息...',
                 })
                 const res = await sendTxt({
                     roomId: that.data.roomId,
                     content: that.data.content
                 })
                 console.log(res)
-                if (res?.result?.code ?? -1 == 300) {
+                if (res.result.code == 300) {
                     that.setData({
                         errMsg: res.result.msg
                     })
-                }else if(res.result.code == 200){
+                } else if (res.result.code == 200) {
                     //todo:返回机器人的回复
                     that.setData({
-                    })  
+                        chatMsg: {
+                            openid: "chatgptbot",
+                            msgType: 'text',
+                            userInfo: {
+                                avatarUrl: '/assets/robot.png',
+                                nickName: 'ChatAi'
+                            },
+                            content: res.result.msg,
+                            _createTime: TimeCode(),
+                        }
+                    })
                 }
             } catch (error) {
-                showMessage('发送文字失败，网络出现问题')
+                showMessage('发送失败，网络出现问题')
                 console.log(error)
             } finally {
                 this.setData({
@@ -126,13 +151,16 @@ Page({
                 wx.hideLoading();
             }
         } else {
-            const res = await wx.getUserProfile({
-                desc: '获取用户聊天头像',
-            })
             try {
+                const res = await wx.getUserProfile({
+                    desc: '获取用户聊天头像',
+                })
                 wx.showLoading({
                     title: '获取用户信息',
                 })
+                wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+                wx.setStorageSync('nickName', res.userInfo.nickName)
+                console.log(res)
                 const r = await userRegister(res.userInfo);
                 console.log(r)
                 that.setData({

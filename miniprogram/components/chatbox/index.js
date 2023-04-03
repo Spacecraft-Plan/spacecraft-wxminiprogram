@@ -1,13 +1,8 @@
 import {
     getMessageList
 } from '../../services/message';
-import {
-    creaDbWatcher
-} from '../../utils/dbHelper';
-// release/components/chatbox
 const app = getApp();
 // 配置消息侦听器
-var messageWatcher = null;
 // 时间工具类
 
 Component({
@@ -27,9 +22,17 @@ Component({
             observer: function (newVal, oldVal) {
                 if (newVal != undefined && newVal != null) {
                     // console.log(newVal)
-                    this.initWatcher(newVal)
+                    this.refreshChatList('')
                 }
-
+            }
+        },
+        chatMsg: {
+            type: Object,
+            observer: function (newVal, oldVal) {
+                if (newVal != undefined && newVal != null) {
+                    // console.log(newVal)
+                    this.refreshChatList(newVal)
+                }
             }
         }
     },
@@ -45,8 +48,6 @@ Component({
         attached() {
             var that = this;
             that.initMessageHistory();
-            //初始化监听器
-            // that.initWatcher();
             wx.getSystemInfo({
                 success: function (res) {
                     that.setData({
@@ -56,11 +57,6 @@ Component({
             })
         },
         detached() {
-            try {
-                this.messageWatcher.close()
-            } catch (error) {
-                console.log('--消息监听器关闭失败--')
-            }
         }
     },
     /**
@@ -160,36 +156,19 @@ Component({
                 wx.hideLoading();
             }
         },
-        //初始化聊天监听器
-        initWatcher() {
-            var that = this;
-            this.messageWatcher = creaDbWatcher({
-                    roomId: that.properties.roomId,
-                },
-                (snapshot) => {
-                    //只打印变动的信息
-                    // console.log(snapshot)
-                    if (snapshot.docChanges.length != 0) {
-                        console.log(snapshot.docChanges)
-                        let tarr = []
-                        snapshot.docChanges.forEach(function (ele, index) {
-                            tarr.push(ele.doc)
-                        })
-                        that.setData({
-                            chatList: that.data.chatList.concat(tarr)
-                        }, () => {
-                            let len = that.data.chatList.length
-                            setTimeout(function () {
-                                that.setData({
-                                    scrollId: 'msg-' + parseInt(len - 1)
-                                })
-                            }, 100)
-                        })
-                    }
-                },
-                (err) => {
-                    console.error('the watch closed because of error', err)
-                });
+        refreshChatList(msg) {
+            const that = this
+            this.data.chatList.push(msg)
+            this.setData({
+                chatList: this.data.chatList
+            }, () => {
+                let len = this.data.chatList.length
+                setTimeout(function () {
+                    that.setData({
+                        scrollId: 'msg-' + parseInt(len - 1)
+                    })
+                }, 100)
+            })
         }
     }
 })
