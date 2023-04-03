@@ -20,7 +20,6 @@ function userRegister(userInfo) {
 //身份校验
 function checkLoginState() {
     return new Promise(function (resolve, reject) {
-        resolve(200)
         wx.cloud.callFunction({
             name: 'auth',
             success: res => {

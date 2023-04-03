@@ -1,5 +1,6 @@
-const timeutil = require('timeutil');
+const timeutil = require('timeUtil');
 const db = wx.cloud.database();
+// wx.setStorageSync
 // 获取命令行符号
 const _ = db.command;
 export function creaDbWatcher(where, onChange, onError) {

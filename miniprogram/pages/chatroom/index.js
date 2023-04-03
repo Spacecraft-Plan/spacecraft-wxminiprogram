@@ -6,6 +6,9 @@ import {
     sendTxt,
     sendImg
 } from '../../services/message'
+import {
+    showMessage
+} from '../../utils/toastUtil'
 // 获取全局APP
 const app = getApp();
 // 转发
@@ -44,25 +47,31 @@ Page({
             encoding: 'base64', //编码格式
         })
         var bufferData = res.data;
-        res = sendImg({
-            roomId: that.data.roomId,
-            content: bufferData
-        });
-        wx.showLoading({
-            title: '信息发送',
-            mask: true
-        })
-        console.log(res)
-        if (res.result.code == 300) {
-            that.setData({
-                errMsg: res.result.msg
+        try {
+            wx.showLoading({
+                title: '信息发送',
+                mask: true
             })
+            res = await sendImg({
+                roomId: that.data.roomId,
+                content: bufferData
+            });
+            console.log(res)
+            if (res.result.code == 300) {
+                that.setData({
+                    errMsg: res.result.msg
+                })
+            }
+        } catch (res) {
+            showMessage('网络出现问题')
+            console.log(res)
+        } finally {
+            this.setData({
+                content: ''
+            })
+            wx.hideLoading();
         }
-        console.log(res)
-        this.setData({
-            content: ''
-        })
-        wx.hideLoading();
+
     },
     InputFocus(e) {
         this.setData({
@@ -89,39 +98,54 @@ Page({
         var that = this;
         if (this.data.login) {
             //已登录用户
-            wx.showLoading({
-                title: '信息发送',
-            })
-            const res = await sendTxt({
-                roomId: that.data.roomId,
-                content: that.data.content
-            })
-            console.log(res)
-            if (res?.result?.code ?? -1 == 300) {
-                that.setData({
-                    errMsg: res.result.msg
+            try {
+                wx.showLoading({
+                    title: '信息发送',
                 })
+                const res = await sendTxt({
+                    roomId: that.data.roomId,
+                    content: that.data.content
+                })
+                console.log(res)
+                if (res?.result?.code ?? -1 == 300) {
+                    that.setData({
+                        errMsg: res.result.msg
+                    })
+                }else if(res.result.code == 200){
+                    //todo:返回机器人的回复
+                    that.setData({
+                    })  
+                }
+            } catch (error) {
+                showMessage('发送文字失败，网络出现问题')
+                console.log(error)
+            } finally {
+                this.setData({
+                    content: ''
+                })
+                wx.hideLoading();
             }
-            this.setData({
-                content: ''
-            })
-            wx.hideLoading();
         } else {
             const res = await wx.getUserProfile({
                 desc: '获取用户聊天头像',
             })
-            // console.log(res)
-            wx.showLoading({
-                title: '获取用户信息',
-            })
-            const r = await userRegister(res.userInfo);
-            console.log(r)
-            wx.hideLoading();
-            that.setData({
-                login: true
-            }, () => {
-                that.submit();
-            })
+            try {
+                wx.showLoading({
+                    title: '获取用户信息',
+                })
+                const r = await userRegister(res.userInfo);
+                console.log(r)
+                that.setData({
+                    login: true
+                }, () => {
+                    that.submit();
+                })
+            } catch (r) {
+                showMessage('网络出现问题')
+                console.log(r)
+            } finally {
+                wx.hideLoading();
+            }
         }
     },
     /**
@@ -134,13 +158,19 @@ Page({
             this.setData({
                 login: l
             })
+        }).catch(res => {
+            showMessage('网络出现问题')
+            console.log(res, '--未登录--');
+            this.setData({
+                login: false
+            })
         });
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
- 
+
     },
 
     /**
@@ -185,11 +215,6 @@ Page({
 
     },
     selectVoice() {
-        wx.showToast({
-            title: '该功能未上线！',
-            icon: 'none',
-            duration: 1500
-
-        })
+        showMessage('该功能未上线！')
     }
 })

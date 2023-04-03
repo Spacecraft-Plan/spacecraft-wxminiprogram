@@ -115,65 +115,57 @@ Component({
                 title: '获取历史记录',
                 mask: true
             })
-            //   const res = await  getMessageList({
-            //     step: that.data.chatList.length,
-            //     roomId: that.properties.roomId
-            //   });
-            wx.cloud.callFunction({
-                name: 'cloud-msg-his',
-                data: {
+            try {
+                const res = await getMessageList({
                     step: that.data.chatList.length,
                     roomId: that.properties.roomId
-                },
-                success: res => {
-                    console.log(res)
-                    let tarr = res.result.data
-                    let newsLen = tarr.length
-                    if (newsLen == 0) {
-                        //查无数据
-                        setTimeout(function () {
-                            wx.showToast({
-                                title: '到顶了',
-                                icon: 'none'
-                            })
-                        }, 300)
+                })
+                console.log(res)
+                let tarr = res.result.data
+                let newsLen = tarr.length
+                if (newsLen == 0) {
+                    //查无数据
+                    setTimeout(function () {
+                        wx.showToast({
+                            title: '到顶了',
+                            icon: 'none'
+                        })
+                    }, 300)
 
-                    }
-                    tarr = tarr.reverse()
-                    that.setData({
-                        chatList: tarr.concat(that.data.chatList)
-                    }, () => {
-                        let len = that.data.chatList.length
-                        if (that.data.isTop) {
-                            setTimeout(function () {
-                                that.setData({
-                                    scrollId: 'msg-' + parseInt(newsLen)
-                                })
-                            }, 100)
-                        } else {
-                            setTimeout(function () {
-                                that.setData({
-                                    scrollId: 'msg-' + parseInt(len - 1)
-                                })
-                            }, 100)
-                        }
-
-                    })
-                },
-                fail: res => {
-                    console.log("获取历史数据：fail")
-                    console.log(res)
-                },
-                complete: res => {
-                    console.log("获取历史数据：complete")
-                    wx.hideLoading();
                 }
-            })
+                tarr = tarr.reverse()
+                that.setData({
+                    chatList: tarr.concat(that.data.chatList)
+                }, () => {
+                    let len = that.data.chatList.length
+                    if (that.data.isTop) {
+                        setTimeout(function () {
+                            that.setData({
+                                scrollId: 'msg-' + parseInt(newsLen)
+                            })
+                        }, 100)
+                    } else {
+                        setTimeout(function () {
+                            that.setData({
+                                scrollId: 'msg-' + parseInt(len - 1)
+                            })
+                        }, 100)
+                    }
+
+                })
+            } catch (err) {
+                console.log("获取历史数据：fail")
+            } finally {
+                console.log("获取历史数据：complete")
+                wx.hideLoading();
+            }
         },
         //初始化聊天监听器
         initWatcher() {
             var that = this;
-            this.messageWatcher = creaDbWatcher({roomId: that.properties.roomId,},
+            this.messageWatcher = creaDbWatcher({
+                    roomId: that.properties.roomId,
+                },
                 (snapshot) => {
                     //只打印变动的信息
                     // console.log(snapshot)
