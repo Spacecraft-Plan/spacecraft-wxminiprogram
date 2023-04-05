@@ -9,12 +9,12 @@ App({
     wx.setStorageSync('logs', logs)
 
     // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        wx.setStorageSync('auth_code',res.code)
-      }
-    })
+    // wx.login({
+    //   success: res => {
+    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //     wx.setStorageSync('auth_code',res.code)
+    //   }
+    // })
     this.InitCustom(); //初始化custom所需配置信息
     this.InitCloud(); //初始化云服务 / ESC
   },

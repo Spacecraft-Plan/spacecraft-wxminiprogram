@@ -112,6 +112,9 @@ Page({
         if (this.data.login) {
             //已登录用户
             try {
+                wx.showLoading({
+                    title: '机器人正在思考...',
+                })
                 that.setData({
                     chatMsg: {
                         openid: app.globalData.openid || wx.getStorageSync('openid'),
@@ -124,9 +127,7 @@ Page({
                         _createTime: TimeCode(),
                     }
                 })
-                wx.showLoading({
-                    title: '接受信息...',
-                })
+
                 const res = await sendTxt({
                     roomId: that.data.roomId,
                     content: that.data.content
@@ -136,6 +137,8 @@ Page({
                     that.setData({
                         errMsg: res.result.msg
                     })
+                } else if (res.result.code == 403) {
+                    showMessage(res.result.msg,2000)
                 } else if (res.result.code == 200) {
                     //todo:返回机器人的回复
                     that.setData({
@@ -194,14 +197,17 @@ Page({
      */
     onLoad: function (options) {
         checkLoginState().then(res => {
+            console.log('checkLoginState')
             const l = res.result.code == 200;
-            console.log(res, l ? '--已登录--' : '--未登录--');
+            console.log(res,l ? '--已登录--' : '--未登录--');
+            if(!l)  wx.setStorageSync('auth_code','')
             this.setData({
                 login: l
             })
         }).catch(res => {
             showMessage('网络出现问题')
-            console.log(res, '--未登录--');
+            console.log(res, '--未登录1--');
+            wx.setStorageSync('auth_code','')
             this.setData({
                 login: false
             })

@@ -1,7 +1,7 @@
-export function showMessage(msg){
+export function showMessage(msg,duration = 1500){
     wx.showToast({
         title:msg,
         icon: 'none',
-        duration: 1500
+        duration: duration
     })
 }

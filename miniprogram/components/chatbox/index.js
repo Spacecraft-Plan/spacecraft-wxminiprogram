@@ -90,7 +90,7 @@ Component({
             that.setData({
                 isTop: true
             }, () => {
-                this.reqMsgHis();
+                // this.reqMsgHis();
             })
 
         },

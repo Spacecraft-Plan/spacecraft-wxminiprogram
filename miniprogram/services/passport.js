@@ -2,7 +2,7 @@ import {
     sendReq
 } from '../utils/requests'
 //登入
-function userRegister(userInfo) {
+async function userRegister(userInfo) {
     // return new Promise(function (resolve, reject) {
     //     resolve(200)
     //     wx.cloud.callFunction({
@@ -21,20 +21,14 @@ function userRegister(userInfo) {
     return sendReq({
         method:'POST',
         path: '/api/user',
-        data: {
-            code:wx.getStorageSync('auth_code'),
-            userInfo
-        }
+        data: userInfo
     })
 }
 
 //身份校验
 function checkLoginState() {
     return sendReq({
-        path: '/api/user',
-        data: {
-            code: wx.getStorageSync('auth_code')
-        }
+        path: '/api/user'
     })
     // wx.cloud.callFunction({
     //     name: 'auth',

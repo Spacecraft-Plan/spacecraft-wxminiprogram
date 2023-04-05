@@ -131,7 +131,6 @@ Page({
         wx.getUserProfile({
             desc: '获取用户聊天头像',
             success: (res) => {
-                showMessage(JSON.stringify(res))
                 console.log(res)
                 const userInfo = res.userInfo
                 this.setData({
@@ -140,7 +139,8 @@ Page({
                 })
             },
             fail:(res)=>{
-                showMessage(JSON.stringify(res))
+                showMessage("认证失败")
+                console.log(res)
             }
         })
     },

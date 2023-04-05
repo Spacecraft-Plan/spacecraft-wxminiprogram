@@ -12,7 +12,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "ChatAi",
+        "navigationBarTitleText": "情绪小助手",
         "navigationBarTextStyle": "black"
     },
     "tabBar": {
