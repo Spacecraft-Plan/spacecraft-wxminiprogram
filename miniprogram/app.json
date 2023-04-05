@@ -1,13 +1,13 @@
 {
     "pages": [
-        "pages/chatroom/index",
         "pages/home/index",
+        "pages/chatroom/index",
         "pages/logs/index",
         "pages/overtime/index",
         "pages/profile/index",
         "pages/community/index",
-        "pages/webview/index"
-
+        "pages/webview/index",
+        "pages/paycard/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -19,7 +19,8 @@
         "color": "#2c2c2c",
         "selectedColor": "#1296db",
         "backgroundColor": "white",
-        "list": [{
+        "list": [
+            {
                 "pagePath": "pages/home/index",
                 "text": "首页",
                 "iconPath": "/assets/home_black.png",

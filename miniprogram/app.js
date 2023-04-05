@@ -12,6 +12,7 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.setStorageSync('auth_code',res.code)
       }
     })
     this.InitCustom(); //初始化custom所需配置信息

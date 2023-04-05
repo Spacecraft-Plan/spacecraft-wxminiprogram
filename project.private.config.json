@@ -4,5 +4,6 @@
         "urlCheck": false,
         "compileHotReLoad": true
     },
-    "projectname": "chatai"
+    "projectname": "chatai",
+    "libVersion": "2.30.3"
 }

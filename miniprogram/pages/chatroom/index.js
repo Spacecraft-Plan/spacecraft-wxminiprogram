@@ -32,6 +32,7 @@ Page({
         }],
         voice: false,
         showKeyboard: false,
+        sendout: false,
     },
     async selectImg() {
         var that = this;
@@ -72,9 +73,18 @@ Page({
         }
 
     },
+    /**
+     * 获取input输入的消息
+     */
+    moninput: function (e) {
+        this.setData({
+            sendout: e.detail.value ? true : false,
+            content: e.detail.value
+        })
+    },
     InputFocus(e) {
         this.setData({
-            InputBottom: e.detail.height
+            InputBottom: e.detail.height,
         })
     },
     InputBlur(e) {
@@ -94,7 +104,7 @@ Page({
         })
     },
     async submit() {
-        if(!this.data.content){
+        if (!this.data.content) {
             showMessage('请输入问题')
             return
         }
@@ -144,6 +154,9 @@ Page({
             } catch (error) {
                 showMessage('发送失败，网络出现问题')
                 console.log(error)
+                // this.setData({
+                //     login: false
+                // })
             } finally {
                 this.setData({
                     content: ''
@@ -181,7 +194,7 @@ Page({
      */
     onLoad: function (options) {
         checkLoginState().then(res => {
-            const l = res?.result?.errCode ?? -1 != -1
+            const l = res.result.code == 200;
             console.log(res, l ? '--已登录--' : '--未登录--');
             this.setData({
                 login: l
@@ -243,6 +256,9 @@ Page({
 
     },
     selectVoice() {
+        showMessage('该功能未上线！')
+    },
+    selectAdd() {
         showMessage('该功能未上线！')
     }
 })
