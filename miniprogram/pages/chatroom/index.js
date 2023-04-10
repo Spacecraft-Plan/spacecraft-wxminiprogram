@@ -14,6 +14,7 @@ import {
 } from '../../utils/timeUtil'
 // 获取全局APP
 const app = getApp();
+let chatroomConnnector = null
 Page({
     /**
      * 页面的初始数据
@@ -99,7 +100,7 @@ Page({
                 console.log(res.tapIndex)
             },
             fail(res) {
-                console.log(res.errMsg)
+                console.e(res.errMsg)
             }
         })
     },
@@ -127,12 +128,88 @@ Page({
                         _createTime: TimeCode(),
                     }
                 })
-
-                const res = await sendTxt({
-                    roomId: that.data.roomId,
-                    content: that.data.content
+                chatroomConnnector.send({ data: JSON.stringify({
+                    wxAuthCode: wx.getStorageSync('auth_code'),
+                    content:that.data.content
+                })})
+                // const res = await sendTxt({
+                //     roomId: that.data.roomId,
+                //     content: that.data.content
+                // })
+                // console.log(res)
+                // if (res.result.code == 300) {
+                //     that.setData({
+                //         errMsg: res.result.msg
+                //     })
+                // } else if (res.result.code == 403) {
+                //     showMessage(res.result.msg,2000)
+                // } else if (res.result.code == 200) {
+                //     //todo:返回机器人的回复
+                //     that.setData({
+                //         chatMsg: {
+                //             openid: "chatgptbot",
+                //             msgType: 'text',
+                //             userInfo: {
+                //                 avatarUrl: '/assets/robot.png',
+                //                 nickName: 'ChatAi'
+                //             },
+                //             content: res.result.msg,
+                //             _createTime: TimeCode(),
+                //         }
+                //     })
+                // }
+            } catch (error) {
+                showMessage('发送失败，网络出现问题')
+                console.error(error)
+                // this.setData({
+                //     login: false
+                // })
+                wx.hideLoading();
+            } finally {
+                this.setData({
+                    content: ''
                 })
-                console.log(res)
+                
+            }
+        } else {
+            try {
+                const res = await wx.getUserProfile({
+                    desc: '获取用户聊天头像',
+                })
+                wx.showLoading({
+                    title: '获取用户信息',
+                })
+                wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+                wx.setStorageSync('nickName', res.userInfo.nickName)
+                const r = await userRegister(res.userInfo);
+                that.setData({
+                    login: true
+                }, () => {
+                    that.submit();
+                })
+            } catch (r) {
+                showMessage('网络出现问题')
+                console.e(r)
+            } finally {
+                wx.hideLoading();
+            }
+        }
+    },
+    async connectChatRoom(){
+        try {
+            const that = this
+            const {socketTask} = await wx.cloud.connectContainer({
+                config: {
+                    env: "prod-1gj8r0g67f17c052"
+                },
+                service: 'flask-c8d3', // 替换自己的服务名
+                path: '/chat' // 不填默认根目录
+            })
+            chatroomConnnector = socketTask
+            socketTask.onMessage(function (event) {
+                wx.hideLoading();
+                const res = JSON.parse(event.data)
+                console.log('【WEBSOCKET】接收消息', res)
                 if (res.result.code == 300) {
                     that.setData({
                         errMsg: res.result.msg
@@ -154,64 +231,41 @@ Page({
                         }
                     })
                 }
-            } catch (error) {
-                showMessage('发送失败，网络出现问题')
-                console.log(error)
-                // this.setData({
-                //     login: false
-                // })
-            } finally {
-                this.setData({
-                    content: ''
-                })
+              })
+              socketTask.onOpen(function (res) {
+                console.log('【WEBSOCKET】', '链接成功！')
+                
+              })
+              socketTask.onClose(function (res) {
+                console.log('【WEBSOCKET】链接关闭！')
+                showMessage("聊天室连接失败")
                 wx.hideLoading();
-            }
-        } else {
-            try {
-                const res = await wx.getUserProfile({
-                    desc: '获取用户聊天头像',
-                })
-                wx.showLoading({
-                    title: '获取用户信息',
-                })
-                wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-                wx.setStorageSync('nickName', res.userInfo.nickName)
-                console.log(res)
-                const r = await userRegister(res.userInfo);
-                console.log(r)
-                that.setData({
-                    login: true
-                }, () => {
-                    that.submit();
-                })
-            } catch (r) {
-                showMessage('网络出现问题')
-                console.log(r)
-            } finally {
-                wx.hideLoading();
-            }
+              })
+        } catch (error) {
+            console.e(error)
+            showMessage("聊天室连接失败")
         }
     },
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function async (options) {
         checkLoginState().then(res => {
-            console.log('checkLoginState')
             const l = res.result.code == 200;
             console.log(res,l ? '--已登录--' : '--未登录--');
-            if(!l)  wx.setStorageSync('auth_code','')
+            // if(!l)  wx.setStorageSync('auth_code','')
             this.setData({
                 login: l
             })
         }).catch(res => {
             showMessage('网络出现问题')
             console.log(res, '--未登录1--');
-            wx.setStorageSync('auth_code','')
+            // wx.setStorageSync('auth_code','')
             this.setData({
                 login: false
             })
         });
+        this.connectChatRoom()
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -238,7 +292,6 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
-
     },
 
     /**
@@ -264,7 +317,11 @@ Page({
     selectVoice() {
         showMessage('该功能未上线！')
     },
+    selectShare() {
+        showMessage('该功能未上线！')
+    },
     selectAdd() {
         showMessage('该功能未上线！')
-    }
+    },
+
 })

@@ -7,7 +7,7 @@ export function getOne({
     //     success,
     //     fail,
     //   })
-    console.log(wx.getAccountInfoSync().miniProgram.appId)
+    // console.log(wx.getAccountInfoSync().miniProgram.appId)
     return wx.serviceMarket.invokeService({
         service: 'wxcae50ba710ca29d3', // 'wx_mp_appid',
         api: 'jokebot',

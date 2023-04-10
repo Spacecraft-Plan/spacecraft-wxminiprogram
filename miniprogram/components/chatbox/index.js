@@ -116,7 +116,7 @@ Component({
                     step: that.data.chatList.length,
                     roomId: that.properties.roomId
                 })
-                console.log(res)
+                // console.log(res)
                 let tarr = res.result.data
                 let newsLen = tarr.length
                 if (newsLen == 0) {

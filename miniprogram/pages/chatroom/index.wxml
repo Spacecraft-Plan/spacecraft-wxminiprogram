@@ -14,6 +14,7 @@
         <text class="cuIcon-emoji text-grey" bindtap="selectEmoji" wx:if="{{showEmoji}}"/>
     </view> -->
     <!-- <text class="cuIcon-discover text-grey" bindtap="selectImg"/> -->
+    <image class='text-icon shadow' src='/assets/share.png' bindtap="selectShare" style="margin-right:6px;height: 20px;width: 30px;"/>
     <button class="cu-btn cuIcon-add shadow" wx:if="{{!sendout}}" style="width:auto" bindtap="selectAdd"/>
     <view class="cu-btn bg-green shadow" style="{{sendout?'transition:all 0.5s;width:auto;white-space:nowrap;;':'width:0;position: absolute;right: 0;visibility: hidden;'}}" bindtap="submit">发送</view>
 </view>

@@ -12,7 +12,7 @@ export const firstChat = {
                 avatarUrl: '/assets/robot.png',
                 nickName: 'ChatAi'
             },
-            content: String.raw`哈喽，我是Chat GPT，是目前全球最先进的Ai解答机器人
+            content: String.raw`哈喽，我是ChatGPT，是目前全球最先进的Ai解答机器人
             我的应用领域非常广泛，列举以下事物：
             1.写策划、写文案、写合同
             2. 写代码、写简历、写论文
@@ -28,4 +28,5 @@ export const firstChat = {
     }
 }
 // export const baseUrl='http://localhost:9000'
-export const baseUrl='https://chatbot-server-production-cf19.up.railway.app'
+// export const baseUrl='https://chatbot-server-production-cf19.up.railway.app'
+export const baseUrl = 'https://flask-c8d3-42278-4-1309166807.sh.run.tcloudbase.com'
