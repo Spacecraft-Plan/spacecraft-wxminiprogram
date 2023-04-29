@@ -127,24 +127,10 @@ Page({
             }
         })
     },
-    onAuth(e) {
-        wx.getUserProfile({
-            desc: '获取用户聊天头像',
-            success: (res) => {
-                console.log(res)
-                const userInfo = res.userInfo
-                this.setData({
-                    avatarUrl: userInfo.avatarUrl,
-                    nickName: userInfo.nickName
-                })
-            },
-            fail:(res)=>{
-                showMessage("认证失败")
-                console.log(res)
-            }
-        })
+    async onAuth(e) {
+      
     },
-    onBug(e){
+    onBug(e) {
         wx.navigateTo({
             url: '/pages/paycard/index'
         })
