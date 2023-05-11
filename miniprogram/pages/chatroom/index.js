@@ -1,7 +1,8 @@
 import {
-    userRegister,
+    getUser,
+    addUser,
     checkLoginState
-} from '../../services/passport'
+} from '../../services/userApi'
 import {
     sendTxt,
     sendImg
@@ -173,15 +174,10 @@ Page({
             }
         } else {
             try {
-                const res = await wx.getUserProfile({
-                    desc: '获取用户聊天头像',
-                })
                 wx.showLoading({
                     title: '获取用户信息',
                 })
-                wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-                wx.setStorageSync('nickName', res.userInfo.nickName)
-                const r = await userRegister(res.userInfo);
+                const r = await addUser(getUser());
                 that.setData({
                     login: true
                 }, () => {
