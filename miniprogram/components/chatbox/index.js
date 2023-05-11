@@ -1,6 +1,6 @@
 import {
     getMessageList
-} from '../../services/message';
+} from '../../services/messageApi';
 const app = getApp();
 // 配置消息侦听器
 // 时间工具类

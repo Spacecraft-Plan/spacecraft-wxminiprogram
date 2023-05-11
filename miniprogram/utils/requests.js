@@ -10,6 +10,15 @@ export function sendReq(d) {
         let {path,data,method} = d
         if(!method){method = 'GET'}
         try {
+            //session_key 未过期，并且在本生命周期一直有效
+            const ret = await wx.checkSession()
+            console.log("checkSession有效",ret)
+        } catch (error) {
+            // session_key 已经失效，需要重新执行登录流程
+            const ret = await wx.login() //重新登录
+            console.log("checkSession失效",ret)
+        }
+        try {
             console.log('sendReq >>',d)
             const res = await wx.cloud.callContainer({
                 config: {

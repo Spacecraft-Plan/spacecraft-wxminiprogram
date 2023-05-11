@@ -6,7 +6,7 @@ import {
 import {
     sendTxt,
     sendImg
-} from '../../services/message'
+} from '../../services/messageApi'
 import {
     showMessage
 } from '../../utils/toastUtil'

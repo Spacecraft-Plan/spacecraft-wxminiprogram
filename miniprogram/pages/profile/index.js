@@ -2,6 +2,9 @@
 import {
     showMessage
 } from '../../utils/toastUtil'
+import {
+    getUser
+} from '../../services/userApi'
 const app = getApp()
 Page({
 
@@ -128,7 +131,14 @@ Page({
         })
     },
     async onAuth(e) {
-      
+        const user = await getUser()
+        if(!user){
+            showMessage("获取用户信息失败")
+        }
+        this.setData({
+            avatarUrl: user.avatarUrl,
+            nickName: user.nickName
+        })
     },
     onBug(e) {
         wx.navigateTo({

@@ -37,23 +37,23 @@ async function getUser() {
         })
         try {
             res = await wx.getUserProfile({
-                desc: '展示用户信息'
+                desc: '用于完善会员资料'
             })
             console.log(res)
+            if(!res) {
+                console.error("获取用户信息失败,res为null")
+                return null
+            }
             user = {
                 ...res.userInfo
             }
             wx.setStorageSync('user', user)
-            // this.setData({
-            //     avatarUrl: userInfo.avatarUrl,
-            //     nickName: userInfo.nickName
-            // })
+            return user
         } catch (e) {
             showMessage("获取用户信息失败")
             console.error(e)
             return null
         }
-        return user
     } catch (e) {
         showMessage("认证失败")
         console.error(e)
