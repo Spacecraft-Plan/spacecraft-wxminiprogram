@@ -1,7 +1,7 @@
 // pages/community/index.js
 import {
     getOne
-} from '../../services/api'
+} from '../../services/oneApi'
 Page({
 
     /**
@@ -90,7 +90,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad(options) {
+    async onLoad(options) {
 
         const oneText = wx.getStorageSync('oneText');
         const oneShowTime = wx.getStorageSync('oneShowTime');
@@ -111,34 +111,28 @@ Page({
             ((seconds == 0) ? "" : seconds + "秒");
         console.log(oneText, hours, minutes, seconds, returnVal);
         if (!oneText || hours >= 24) {
-            getOne({
-                success: (res) => {
-                    console.log('invokeService success', res)
-                    const {
-                        err_code,
-                        err_msg,
-                        data_list
-                    } = res.data
-                    if (data_list.length > 0) {
-                        this.setData({
-                            vhan: data_list[0].result,
-                            creator: '',
-                            source: ''
-                        })
-                        wx.setStorageSync('oneShowTime', Date.now())
-                        wx.setStorageSync('oneText', data_list[0].result)
-                    }
-                    // console.log(res.data.data.vhan,res.data.data.creator,res.data.data.source)
-                    // this.setData({
-                    //     vhan: res.data.data.vhan,
-                    //     creator: res.data.data.creator,
-                    //     source: res.data.data.source,
-                    // })
-                },
-                fail: (err) => {
-                    console.error('invokeService fail', err)
+            try {
+                const res = await getOne()
+                console.log('invokeService success', res)
+                const {err_code,err_msg,data_list} = res.data
+                if (data_list.length > 0) {
+                    this.setData({
+                        vhan: data_list[0].result,
+                        creator: '',
+                        source: ''
+                    })
+                    wx.setStorageSync('oneShowTime', Date.now())
+                    wx.setStorageSync('oneText', data_list[0].result)
                 }
-            })
+                // console.log(res.data.data.vhan,res.data.data.creator,res.data.data.source)
+                // this.setData({
+                //     vhan: res.data.data.vhan,
+                //     creator: res.data.data.creator,
+                //     source: res.data.data.source,
+                // })
+            } catch (err) {
+                console.error('invokeService fail', err)
+            }
         } else {
             // const pos = Math.round(Math.random() * this.data.one.length)
             // this.setData(this.data.one[pos])
@@ -197,15 +191,19 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage(o) {
-            return {
-                from: o.from,
-                title: o.title,
-                // imageUrl: '' // 图片 URL
-                // path: '/pages/index/index?userId='+Constant.userId+'&share=true',
-            }
+        return {
+            from: o.from,
+            title: o.title,
+            // imageUrl: '' // 图片 URL
+            // path: '/pages/index/index?userId='+Constant.userId+'&share=true',
+        }
     },
     onCopy(e) {
-        const {vhan} = e.currentTarget.dataset
-        wx.setClipboardData({data: vhan,})
+        const {
+            vhan
+        } = e.currentTarget.dataset
+        wx.setClipboardData({
+            data: vhan,
+        })
     }
-}) 
+})

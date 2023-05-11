@@ -1,7 +1,7 @@
 <!--pages/community/index.wxml-->
 <view class="container">
     <view class="page-body" style="display: flex;position: relative;justify-content: center;align-items:stretch;flex-direction: column;">
-        <view class="page-title" style="font-size: 50rpx;font-weight: bold;display: flex;position: relative; justify-content: center; align-items: center;">一句</view>
+        <view class="page-title" style="font-size: 50rpx;font-weight: bold;display: flex;position: relative; justify-content: center; align-items: center;">每日一句</view>
         <view  class="page-setion" style="padding: 20rpx;">
             <text style="text-decoration: underline;"bindtap="onCopy" data-vhan="{{vhan}}">{{vhan}}</text>
             <view wx:if="{{source}}"  style="display: flex;position: relative;flex-direction: column; justify-content: end; align-items: flex-end;">
