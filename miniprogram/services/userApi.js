@@ -2,7 +2,7 @@ import {
     sendReq
 } from '../utils/requests'
 //登入
-async function addUser(userInfo) {
+async function addUser(u) {
     // return new Promise(function (resolve, reject) {
     //     resolve(200)
     //     wx.cloud.callFunction({
@@ -21,7 +21,7 @@ async function addUser(userInfo) {
     return sendReq({
         method:'POST',
         path: '/api/user',
-        data: userInfo
+        data: u
     })
 }
 async function getUser() {
@@ -31,10 +31,10 @@ async function getUser() {
         let res = await wx.login()
         const code = res.code
         //发送 res.code 到后台换取 openId, sessionKey, unionId
-        res = sendReq({method:'POST',
-                path: '/api/code2Session',
-                data: code
-        })
+        // res = sendReq({method:'POST',
+        //         path: '/api/code2Session',
+        //         data: code
+        // })
         try {
             res = await wx.getUserProfile({
                 desc: '用于完善会员资料'
@@ -45,6 +45,7 @@ async function getUser() {
                 return null
             }
             user = {
+                // ...res,
                 ...res.userInfo
             }
             wx.setStorageSync('user', user)
